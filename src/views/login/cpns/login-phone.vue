@@ -25,14 +25,15 @@ export default defineComponent({
       num: '',
       code: ''
     })
-    const fromRef = ref<InstanceType<typeof ElForm>>()
-    const loginAction = () => {
-
+    const formRef = ref<InstanceType<typeof ElForm>>()
+    const loginActionPhone = (isKeepPassword:boolean) => {
+      console.log("phone在登录")
     }
     return {
       phone,
       phoneRules,
-      fromRef
+      formRef,
+      loginActionPhone
     }
   }
 })

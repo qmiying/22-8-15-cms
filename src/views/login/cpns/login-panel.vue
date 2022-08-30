@@ -2,8 +2,8 @@
   <div class="login-panel">
     <h1>后台管理系统</h1>
     <!-- 登录方式 -->
-    <el-tabs type="border-card" class="demo-tabs" stretch="true">
-      <el-tab-pane>
+    <el-tabs type="border-card" class="demo-tabs" :stretch="true" v-model="currentTab">
+      <el-tab-pane name="account">
         <template #label>
           <span class="custom-tabs-label">
             <el-icon>
@@ -14,7 +14,7 @@
         </template>
         <login-account ref="accountRef" />
       </el-tab-pane>
-      <el-tab-pane>
+      <el-tab-pane name="phone">
         <template #label>
           <span class="custom-tabs-label">
             <el-icon>
@@ -49,22 +49,33 @@ export default defineComponent({
     LoginPhone
   },
   setup() {
+    // 1.定义属性
     // checkbox保存密码
     const isKeepPassword = ref(true)
     // 绑定到account模块中的登录请求
     const accountRef = ref<InstanceType<typeof LoginAccount>>()   //<>转化对象类型
     const phoneRef = ref<InstanceType<typeof LoginPhone>>()
-    // 监听按钮登录请求，绑定到account和phone模块中各自完成登录和验证
+    // 区分选中的是账号登录还是手机登录,v-moel绑定到tab中，结合name属性使用
+    const currentTab = ref<string>('account')
+
+    // 2.定义方法
+        // 监听按钮登录请求，绑定到account和phone模块中各自完成登录和验证
     const handleLoginClick = () => {
-      console.log('立即登录')
-      // loginAction为account模块中的登录操作属性
+      if(currentTab.value === 'account'){
+        // loginAction为account模块中的登录操作属性
       accountRef.value?.loginAction(isKeepPassword.value)
+      console.log('执行account里的登录')
+      }else{
+        // loginAction为phone模块中的登录操作属性
+      console.log('执行phone里的登录操作')
+      }
     }
     return {
       isKeepPassword,
       handleLoginClick,
       accountRef,
-      phoneRef
+      phoneRef,
+      currentTab
     }
   }
 })

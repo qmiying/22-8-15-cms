@@ -1,6 +1,6 @@
-// 指定loginstate类型接口 
+// 指定用户登录时的类型接口 
 export interface IloginState {
   token: string,
-  userInfo: any
-
+  userInfo: any,
+  userMenus:any
 }

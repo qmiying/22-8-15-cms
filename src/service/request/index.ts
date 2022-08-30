@@ -27,18 +27,19 @@ class HYRequest {
     // 1.从config中取出的拦截器是对应实例的拦截器
     this.instance.interceptors.request.use(
       this.interceptors?.requestInterceptor,
-      this.interceptors?.requestInterceptorCatch)
+      this.interceptors?.requestInterceptorCatch
+      )
     this.instance.interceptors.response.use(
       this.interceptors?.responseInterceptor,
       this.interceptors?.responseInterceporCatch
     )
 
     // 2.添加所有的实例都有的拦截器
-    this.instance.interceptors.request.use((config) => {
-      console.log('所有实例都有的拦截器:请求成功拦截')
+    this.instance.interceptors.request.use(
+      (config) => {
       // 3.请求时的loading配置
-      if (this.showLoading) {
-        this.loading = ElLoading.service({
+        if (this.showLoading) {
+          this.loading = ElLoading.service({
           lock: true,
           text: '正在加载.....',
           background: 'rgba(0, 0, 0, 0.7)',
@@ -46,11 +47,10 @@ class HYRequest {
       }
       return config
     }, (err) => {
-      console.log('所有实例都有的拦截器:请求失败拦截')
       return err
     })
+
     this.instance.interceptors.response.use((res) => {
-      console.log('所有实例都有的拦截器:响应成功拦截')
       // 4.请求成功移除loading
       this.loading?.close()  //使用可选链，有值的时候才调用
       // 获取到我们需要的真正数据
@@ -62,7 +62,6 @@ class HYRequest {
         return data
       }
     }, (err) => {
-      console.log('所有实例都有的拦截器:响应失败拦截')
       // 4.请求失败移除loading
       this.loading?.close()
       // 例子：拦截器里拦截错误信息方式2：判断不同的HttpErrorCode显示不同拦截

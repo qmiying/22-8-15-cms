@@ -11,13 +11,17 @@ import './assets/css/index.css'
 // index可不写
 import hyRequest from './service/index'
 import { globalRegister } from './global'
+import {setupStore} from './store/index'
 // 全局引入element-plus和样式
 // import ElementPlus from 'element-plus'
 // import 'element-plus/dist/index.css'
 
 const app = createApp(App)
 app.use(globalRegister)
-app.use(store).use(router).mount('#app')
+app.use(store)
+app.use(router)
+setupStore()
+app.mount('#app')
 
 // 使用类HYRequset创建的对象hyRequest进行网络请求
 // 使用此类实例传入在request/index下封装的属性和方法
@@ -42,12 +46,12 @@ interface DataType {
   success: boolean
 }
 
-hyRequest.get<DataType>({
-  url: 'home/multidata',
-  //method: 'GET',
-  showLoading: true
-}).then((res) => {
-  console.log(res.data)
-  console.log(res.returnCode)
-  console.log(res.success)
-})
+// hyRequest.get<DataType>({
+//   url: 'home/multidata',
+//   //method: 'GET',
+//   showLoading: true
+// }).then((res) => {
+//   console.log(res.data)
+//   console.log(res.returnCode)
+//   console.log(res.success)
+// })

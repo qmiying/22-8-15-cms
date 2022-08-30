@@ -17,16 +17,18 @@ import { defineComponent, reactive, ref } from 'vue'
 // 导入的是ts类型
 import { ElForm } from 'element-plus'
 import { rules } from '../config/account-config'
-import localCatch from '@/utils/catch'
-
+import localCache from '@/utils/cache'
+// 导入vuex使用
+import {useStore} from 'vuex'
 export default defineComponent({
   setup() {
+    const store = useStore()
     // 保存账户数据，并动态绑定到input中
     // reactive 显示的创建响应式数据
     const account = reactive({
       // 打开页面有缓存默认显示缓存，否则空
-      name: localCatch.getCatch('name') ?? '',
-      password: localCatch.getCatch('password') ?? ''
+      name: localCache.getCache('name') ?? '',
+      password: localCache.getCache('password') ?? ''
     })
     const formRef = ref<InstanceType<typeof ElForm>>()
     // account模块的登录操作
@@ -37,16 +39,16 @@ export default defineComponent({
           // 1.是否需要登录验证
           if (isKeepPassword) {
             // 本地缓存,调用utils中封装饿缓存方法
-            localCatch.setCatch('name', account.name)
-            localCatch.setCatch('password', account.password)
+            localCache.setCache('name', account.name)
+            localCache.setCache('password', account.password)
             console.log('bao')
           } else {
-            localCatch.deletCatch('name')
-            localCatch.deletCatch('password')
+            localCache.deletCache('name')
+            localCache.deletCache('password')
           }
           // 2.开始进行登录验证
+          store.dispatch('login/accountLoginAction',{...account})
 
-          console.log('真正的登录' + valid)
         }
       })
     }
