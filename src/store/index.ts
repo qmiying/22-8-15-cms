@@ -1,5 +1,5 @@
-import { createStore, storeKey } from 'vuex'
-import { IRootState } from './type'
+import { createStore, storeKey, Store, useStore as useVuexStore } from 'vuex'
+import { IRootState, IStoreType } from './type'
 // 导入登录缓存模块
 import login from './login/login'
 
@@ -25,5 +25,8 @@ import login from './login/login'
 export function setupStore(){
   store.dispatch('login/loadLocalLogin')
 }
-
+// 自己封装一个获取用户菜单的useStore 
+export function useStore(): Store<IStoreType>{
+  return useVuexStore()
+}
 export default store

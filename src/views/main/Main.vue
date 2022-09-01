@@ -1,16 +1,14 @@
 <template>
   <div class="main">
-    <div class="common-layout">
-    <el-container class="el-conten">
-      <el-aside width="250px" class="el-aside">
-        <nev-menu></nev-menu>
+    <el-container class="main-content">
+      <el-aside width="210px">
+        <nev-menu/>
       </el-aside>
-      <el-container>
-        <el-header class="el-header">Header</el-header>
-        <el-main class="el-main">Main</el-main>
+      <el-container class="page">
+        <el-header class="page-header">Header</el-header>
+        <el-main class="page-content">Main</el-main>
       </el-container>
     </el-container>
-  </div>
   </div>
 </template>
 

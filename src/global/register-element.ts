@@ -10,7 +10,10 @@ import {
   ElLink,
   ElAside,
   ElHeader,
-  ElMain
+  ElMain,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItem
 } from 'element-plus/lib/index'   //注意不能只from ‘element-plus’
 
 const components = [
@@ -23,7 +26,10 @@ const components = [
   ElLink,
   ElAside,
   ElHeader,
-  ElMain
+  ElMain,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItem
 ]
 export default function (app: App): void {
   for (const component of components) {
