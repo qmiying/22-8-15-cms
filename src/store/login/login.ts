@@ -5,6 +5,7 @@ import { IRootState } from "../type";
 import { accountLoginRequest, requestUserInfoById, requestUserMenusByRoleId } from "@/service/login/login";   // 导入account等的登录请求
 import { IAccount } from "@/service/login/type"; 
 import localCache from '@/utils/cache'  // 导入本地缓存方法保存token
+import { mapMenusToRoutes } from "@/utils/map-menus";
 import router from '@/router/index'
 
 const loginModule: Module<IloginState, IRootState> = {
@@ -27,6 +28,15 @@ const loginModule: Module<IloginState, IRootState> = {
     },
     changeUserMenus(state,userMenus:any){  //修改保存用户菜单
       state.userMenus = userMenus
+
+      //usermenus => routes
+      const routes = mapMenusToRoutes(userMenus)
+      console.log(routes)
+
+      //将routes => router.main.children
+      routes.forEach((route) => {
+        router.addRoute('main', route)    //动态添加路由到main后-注册路由
+      })
     }
   },
   actions: {
@@ -66,11 +76,11 @@ const loginModule: Module<IloginState, IRootState> = {
         if(token){
           commit('changeToken',token)
         }
-        const userInfo =localCache.getCache("id")
+        const userInfo =localCache.getCache("userInfo")
         if(userInfo){
           commit('changeUserInfo',userInfo)
         }
-        const userMenus = localCache.getCache('id')
+        const userMenus = localCache.getCache('userMenus')
         if(userMenus){
           commit('changeUserMenus',userMenus)
         }

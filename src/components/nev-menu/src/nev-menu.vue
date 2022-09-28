@@ -2,29 +2,37 @@
   <div class="nev-menu">
     <div class="logo">
       <img class="img" src="~@/assets/img/logo.svg" alt="logo">
-      <span class="title">vu3+ts</span>
+      <span v-if="!collapse" class="title">vu3+ts</span>
     </div>
-    <el-menu class="el-menu" default-active="2">
+    <el-menu class="el-menu-vertical" 
+    default-active="2"
+    background-color="#0c2135"
+    text-color="#b7bdc3" 
+    active-text-color="#0a60bs"
+    :collapse="collapse"
+    >
       <template v-for="item in useMenus" :key="item.id">
         <!-- 二级菜单 -->
         <template v-if="item.type === 1">
            <!-- 二级菜单里可以展开的标题 -->
-          <el-sub-menu>
-            <i v-if="item.icon" class="item.icom"></i>
-            <span>{{item.name}}</span>
+          <el-sub-menu :index="item.id + ''">
+            <template #title >
+              <i v-if="item.icon" :class="item.icom"></i>
+              <span>{{item.name}}</span>
+            </template>
+            <!-- 遍历二级菜单里的item -->
+            <template v-for="subitem in item.children" :key="subitem.id">
+              <el-menu-item :index="subitem.id + ''" @click="handleMenuItemClick(subitem)">
+                <i v-if="item.icon" :class="item.icon"></i>
+                <span>{{subitem.name}}</span>
+              </el-menu-item>
+          </template>
           </el-sub-menu>
-          <!-- 遍历二级菜单里的item -->
-          <template v-for="subitem in item.children" :key="subitem.id">
-            <el-menu-item>
-              <i v-if="item.icom" class="item-icon"></i>
-              <span>{{subitem.name}}</span>
-            </el-menu-item>
-        </template>
         </template>
         <!-- 一级菜单 -->
         <template v-else-if="item.type === 2">
           <el-menu-item>
-            <i v-if="item.icon" class="item-icon"></i>
+            <i v-if="item.icon" :class="item.icon"></i>
             <span>{{item.name}}</span>
           </el-menu-item>
         </template>
@@ -36,16 +44,32 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import {useStore} from '@/store/index'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   components:{
-    
+
+  },
+  props:{
+    collapse:{
+      type:Boolean,
+      faulse:false
+    }
   },
   setup() {
     const store = useStore()
     const useMenus = computed(() => store.state.login.userMenus)   //获取用户菜单
+
+    const router = useRouter()
+    const handleMenuItemClick = (item:any) => {
+      console.log(item)
+      router.push({
+        path: item.url ?? '/no-found' 
+      })
+    }
     return {
-      useMenus
+      useMenus,
+      handleMenuItemClick
     }
   }
 })

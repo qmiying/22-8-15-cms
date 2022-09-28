@@ -13,7 +13,7 @@ import {
   ElMain,
   ElMenu,
   ElSubMenu,
-  ElMenuItem
+  ElMenuItem,
 } from 'element-plus/lib/index'   //注意不能只from ‘element-plus’
 
 const components = [
@@ -29,7 +29,7 @@ const components = [
   ElMain,
   ElMenu,
   ElSubMenu,
-  ElMenuItem
+  ElMenuItem,
 ]
 export default function (app: App): void {
   for (const component of components) {

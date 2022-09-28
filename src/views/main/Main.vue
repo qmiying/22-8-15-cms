@@ -1,27 +1,42 @@
 <template>
   <div class="main">
     <el-container class="main-content">
-      <el-aside width="210px">
-        <nev-menu/>
+      <el-aside :width="isCollapse? '60px':'210px'">
+        <nev-menu :collapse="isCollapse"/>
       </el-aside>
       <el-container class="page">
-        <el-header class="page-header">Header</el-header>
-        <el-main class="page-content">Main</el-main>
+        <el-header class="page-header">
+          <nev-header @foldChange="handleFoldChange"/>
+        </el-header>
+        <el-main class="page-content">
+          <div class="page-info">
+            <router-view/>
+          </div>
+        </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import NevMenu from '@/components/nev-menu';
+import NevHeader from '@/components/nev-header'
 
 export default defineComponent({
   components:{
-    NevMenu
+    NevMenu,
+    NevHeader
   },
   setup() {
-    return {}
+    const isCollapse = ref(false)
+    const handleFoldChange = (isFold:boolean) => {
+      isCollapse.value = isFold
+    }
+    return {
+      isCollapse,
+      handleFoldChange
+    }
   }
 })
 </script>
@@ -42,6 +57,11 @@ export default defineComponent({
 
 .page-content {
   height: calc(100% - 48px);
+}
+.page-info{
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 5px 10px;
 }
 
 .el-header,
