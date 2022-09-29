@@ -19,8 +19,8 @@ import {setupStore} from './store/index'
 const app = createApp(App)
 app.use(globalRegister)
 app.use(store)
-app.use(router)
 setupStore()
+app.use(router)
 app.mount('#app')
 
 // 使用类HYRequset创建的对象hyRequest进行网络请求
