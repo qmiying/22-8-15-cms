@@ -1,3 +1,4 @@
+// user配置文件
 import {IForm} from '@/base-ui/form/types'
 
 export  const searchFormConfig: IForm  = {

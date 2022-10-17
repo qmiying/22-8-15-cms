@@ -31,7 +31,6 @@ const loginModule: Module<IloginState, IRootState> = {
 
       //usermenus => routes
       const routes = mapMenusToRoutes(userMenus)
-      console.log(routes)
 
       //将routes => router.main.children
       routes.forEach((route) => {

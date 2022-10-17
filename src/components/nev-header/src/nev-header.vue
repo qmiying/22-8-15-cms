@@ -7,15 +7,16 @@
       </el-icon>      
     </i>
     <div class="content">
-      <div>面包屑</div>
       <div>
-        <user-info/>
+        <hy-breadcrumd :breadcrumbs="breadcrumbs"/>
       </div>
+      <user-info/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import HyBreadcrumd,{IBreadcrumb} from '@/base-ui/breadcrumd'
 import { defineComponent, ref } from 'vue'
 import {Fold ,Expand} from '@element-plus/icons-vue'
 import userInfo from './user-info.vue'
@@ -23,6 +24,7 @@ import userInfo from './user-info.vue'
 
 export default defineComponent({
   components:{
+    HyBreadcrumd,
     Fold,
     Expand,
     userInfo
@@ -34,9 +36,13 @@ export default defineComponent({
       isFold.value = !isFold.value
       emit('foldChange', isFold.value)   //点击图标后将事件发送到main中
     }
+
+    // 面包屑中传入的数据[{name： ，path：}，{name：}]
+    const breadcrumbs:IBreadcrumb[] = [{name:'首页', path:'/main/system'},{name:'用户管理'}]
     return {
       isFold,
-      handleFoldClick
+      handleFoldClick,
+      breadcrumbs
     }
   }
 })

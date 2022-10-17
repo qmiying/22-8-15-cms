@@ -5,13 +5,13 @@
       <span v-if="!collapse" class="title">vu3+ts</span>
     </div>
     <el-menu class="el-menu-vertical" 
-    default-active="2"
+    :default-active="defaultValue"
     background-color="#0c2135"
     text-color="#b7bdc3" 
     active-text-color="#0a60bs"
     :collapse="collapse"
     >
-      <template v-for="item in useMenus" :key="item.id">
+      <template v-for="item in userMenus" :key="item.id">
         <!-- 二级菜单 -->
         <template v-if="item.type === 1">
            <!-- 二级菜单里可以展开的标题 -->
@@ -42,9 +42,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed ,ref} from 'vue'
 import {useStore} from '@/store/index'
-import { useRouter } from 'vue-router'
+import { useRouter , useRoute} from 'vue-router'
+import { pathMapToMenu } from '@/utils/map-menus'
 
 export default defineComponent({
   components:{
@@ -57,10 +58,18 @@ export default defineComponent({
     }
   },
   setup() {
+    //store
     const store = useStore()
-    const useMenus = computed(() => store.state.login.userMenus)   //获取用户菜单
-
+    const userMenus = computed(() => store.state.login.userMenus)   //获取用户菜单
+    //router
     const router = useRouter()
+    const route = useRoute()  //获取当前路由对象
+    const currentPath = route.path   //获取当前路由的路径
+    // data
+    const menu = pathMapToMenu(userMenus.value, currentPath)
+    console.log(menu.id)
+    const defaultValue = ref(menu.id+'')   //当前选中菜单
+    //event handle
     const handleMenuItemClick = (item:any) => {
       console.log(item)
       router.push({
@@ -68,8 +77,10 @@ export default defineComponent({
       })
     }
     return {
-      useMenus,
+      userMenus,
+      defaultValue,
       handleMenuItemClick
+      
     }
   }
 })
