@@ -1,3 +1,4 @@
+import { IBreadcrumb } from "@/base-ui/breadcrumd";
 import { menuItemGroupProps } from "element-plus";
 import { RouteRecordRaw } from "vue-router";
 // 首次进入菜单时，保存第一个进入的菜单
@@ -30,16 +31,24 @@ const _resureGetRoute = (menus: any[]) =>{   //递归函数，获取到菜单里
   }
 }
 _resureGetRoute(userMenus)
-
 return allRoutes
 }
 
-// 判断当前选择菜单与路径,使刷新时保持当前选中菜单
-export function pathMapToMenu(userMenus: any[], currentPath: string) :any {
+// 面包屑显示当前选中路径-合并写法
+export function pathMapBreadcrumbs(userMenus: any[], currentPath: string){
+  const breadcrumbs: IBreadcrumb[] = []
+  pathMapToMenu(userMenus, currentPath, breadcrumbs)
+  return breadcrumbs
+}
+
+// 判断当前选择菜单与路径,使刷新时保持当前选中菜单  
+export function pathMapToMenu(userMenus: any[], currentPath: string, breadcrumbs?: IBreadcrumb[]) :any {
   for (const menu of userMenus) {
     if(menu.type === 1){
       const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
       if (findMenu) {
+        breadcrumbs?.push({name: menu.name})    //保存一级菜单名字和路由
+        breadcrumbs?.push({name: findMenu.name})
         return findMenu
       }  
     }else if(menu.type === 2 && menu.url === currentPath){
@@ -47,5 +56,38 @@ export function pathMapToMenu(userMenus: any[], currentPath: string) :any {
       }
     }
   }
+
+  
+// 面包屑显示当前选中路径-分离写法
+// export function pathMapBreadcrumbs(userMenus: any[], currentPath: string){
+//   const breadcrumbs: IBreadcrumb[] =[]
+//   for (const menu of userMenus) {
+//     if(menu.type === 1){
+//       const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
+//       if (findMenu) {
+//         breadcrumbs.push({name: menu.name, path: menu.url})
+//         breadcrumbs.push({name: findMenu.id, path: findMenu.url})
+//         return findMenu
+//       }  
+//     }else if(menu.type === 2 && menu.url === currentPath){
+//         return menu
+//       }
+//     }
+//     return breadcrumbs
+// }
+
+// // 判断当前选择菜单与路径,使刷新时保持当前选中菜单  
+// export function pathMapToMenu(userMenus: any[], currentPath: string) :any {
+//   for (const menu of userMenus) {
+//     if(menu.type === 1){
+//       const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
+//       if (findMenu) {
+//         return findMenu
+//       }  
+//     }else if(menu.type === 2 && menu.url === currentPath){
+//         return menu
+//       }
+//     }
+//   }
 
   export {firstMenu}

@@ -48,9 +48,7 @@ import { useRouter , useRoute} from 'vue-router'
 import { pathMapToMenu } from '@/utils/map-menus'
 
 export default defineComponent({
-  components:{
-
-  },
+  components:{},
   props:{
     collapse:{
       type:Boolean,
@@ -67,11 +65,9 @@ export default defineComponent({
     const currentPath = route.path   //获取当前路由的路径
     // data
     const menu = pathMapToMenu(userMenus.value, currentPath)
-    console.log(menu.id)
     const defaultValue = ref(menu.id+'')   //当前选中菜单
     //event handle
     const handleMenuItemClick = (item:any) => {
-      console.log(item)
       router.push({
         path: item.url ?? '/no-found' 
       })

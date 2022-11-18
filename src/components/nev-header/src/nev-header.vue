@@ -17,7 +17,10 @@
 
 <script lang="ts">
 import HyBreadcrumd,{IBreadcrumb} from '@/base-ui/breadcrumd'
-import { defineComponent, ref } from 'vue'
+import { pathMapBreadcrumbs } from "@/utils/map-menus"
+import { useStore } from '@/store'
+import { useRoute, useRouter } from 'vue-router'
+import { defineComponent, ref, computed } from 'vue'
 import {Fold ,Expand} from '@element-plus/icons-vue'
 import userInfo from './user-info.vue'
 
@@ -38,7 +41,13 @@ export default defineComponent({
     }
 
     // 面包屑中传入的数据[{name： ，path：}，{name：}]
-    const breadcrumbs:IBreadcrumb[] = [{name:'首页', path:'/main/system'},{name:'用户管理'}]
+    const store = useStore()
+    const breadcrumbs = computed(() => {
+      const userMenus = store.state.login.userMenus
+      const route = useRoute()
+      const currentPath = route.path
+      return pathMapBreadcrumbs(userMenus, currentPath)
+    })
     return {
       isFold,
       handleFoldClick,

@@ -61,7 +61,7 @@ export default defineComponent({
 .page-info{
   background-color: #fff;
   border-radius: 10px;
-  padding: 5px 10px;
+  padding: 5px 0;
 }
 
 .el-header,

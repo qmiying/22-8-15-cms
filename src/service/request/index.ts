@@ -74,7 +74,7 @@ class HYRequest {
 
   // 单个请求的拦截器
   // 定义请求返回泛型类型T的promise，以便在实例中获取到数据res
-  request<T>(config: HYRequestConfig<T>): Promise<T> {
+  request<T = any>(config: HYRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 1.单个请求对config的处理
       if (config.interceptors?.requestInterceptor) {
@@ -106,16 +106,16 @@ class HYRequest {
     })
   }
   // 封装其他请求方法
-  get<T>(config: HYRequestConfig<T>): Promise<T> {
+  get<T = any>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
-  post<T>(config: HYRequestConfig<T>): Promise<T> {
+  post<T = any>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
-  delete<T>(config: HYRequestConfig<T>): Promise<T> {
+  delete<T = any>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
-  patch<T>(config: HYRequestConfig<T>): Promise<T> {
+  patch<T = any>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 }

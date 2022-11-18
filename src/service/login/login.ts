@@ -1,4 +1,5 @@
-import {IAccount,ILoginResault, IDataType} from './type'
+import {IAccount,ILoginResault} from './type'
+import { IDataType } from '../types'
 import hyRequest from '../index'
 // 设置登录请求url，适用于同时使用多个url的情况
 enum LoginAPI {

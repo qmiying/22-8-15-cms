@@ -8,8 +8,5 @@ export interface ILoginResault {
   name: string,
   token: string
 }
-// 定义用户请求到的数据类型
-export interface IDataType<T=any> {
-  code: number,
-  data: T
-}
+
+

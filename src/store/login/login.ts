@@ -39,6 +39,7 @@ const loginModule: Module<IloginState, IRootState> = {
     }
   },
   actions: {
+    // 页面的登录请求和保存数据直接写到vux中
     // 账号的登录请求,async-js的异步操作：可以用同步的写法写异步操作
     async accountLoginAction({commit},payload:IAccount){      // 传入账号密码 保存token，执行登录请求
       
